@@ -13,6 +13,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building project...'
+		sh 'chmod +x mvnw'
                 sh './mvnw clean compile'
             }
         }
