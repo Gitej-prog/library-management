@@ -7,13 +7,13 @@ pipeline {
             steps {
                 echo 'Fetching code from GitHub...'
                 checkout scm
+                sh 'chmod +x mvnw'
             }
         }
 
         stage('Build') {
             steps {
                 echo 'Building project...'
-		sh 'chmod +x mvnw'
                 sh './mvnw clean compile'
             }
         }
@@ -29,6 +29,13 @@ pipeline {
             steps {
                 echo 'Creating JAR...'
                 sh './mvnw clean package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker Image...'
+                sh 'docker build -t library-management:latest .'
             }
         }
     }
